@@ -16,9 +16,9 @@ export default function Home() {
   );
   return (
     <ChatWindow
-      endpoint="api/chat"
-      emoji="🏴‍☠️"
-      placeholder="I'm an LLM pretending to be a pirate! Ask me about the pirate life!"
+      endpoint="api/chat/structured_output"
+      emoji="/images/algoraudit-favicon.ico"
+      placeholder="Input your smart contract address to get the audit report"
       emptyStateComponent={InfoCard}
     />
   );
