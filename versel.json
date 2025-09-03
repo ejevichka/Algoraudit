@@ -1,0 +1,9 @@
+{
+    "redirects": [
+      {
+        "source": "/",
+        "destination": "/structured_output",
+        "permanent": true
+      }
+    ]
+  }
