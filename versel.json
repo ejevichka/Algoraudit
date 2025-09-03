@@ -1,9 +1,15 @@
 {
-    "redirects": [
-      {
-        "source": "/",
-        "destination": "/structured_output",
-        "permanent": true
-      }
-    ]
-  }
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/structured_output",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/structured_output",
+      "destination": "/api/structured_output"
+    }
+  ]
+}
