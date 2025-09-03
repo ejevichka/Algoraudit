@@ -10,6 +10,10 @@
     {
       "source": "/structured_output",
       "destination": "/api/structured_output"
+    },
+    {
+      "source": "/structured_output/**",
+      "destination": "/api/structured_output"
     }
   ]
 }
