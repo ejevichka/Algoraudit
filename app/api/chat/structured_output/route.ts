@@ -135,19 +135,57 @@ export async function POST(req: NextRequest) {
      * We use Zod (https://zod.dev) to define our schema for convenience,
      * but you can pass JSON schema if desired.
      */
+    // Define a structured schema for a contract audit response
+    const vulnerabilitySchema = z
+      .object({
+        number: z.number().describe("Ordinal number of the finding"),
+        title: z.string().describe("Title of the vulnerability"),
+        severity: z
+          .enum(["Low", "Medium", "High", "Critical"]) 
+          .optional()
+          .describe("Severity rating"),
+        description: z
+          .string()
+          .describe("Plain-language description of the issue and impact"),
+        triggering_opcodes: z
+          .array(z.string())
+          .optional()
+          .describe("Relevant TEAL opcodes or code snippets that triggered the warning"),
+        recommendation: z
+          .string()
+          .describe("Concrete recommendation to remediate the issue"),
+      })
+      .describe("One detailed vulnerability finding");
+
     const schema = z
       .object({
-        tone: z
-          .enum(["positive", "negative", "neutral"])
-          .describe("The overall tone of the input"),
-        entity: z.string().describe("The entity mentioned in the input"),
-        word_count: z.number().describe("The number of words in the input"),
-        chat_response: z.string().describe("A response to the human's input"),
-        final_punctuation: z
-          .optional(z.string())
-          .describe("The final punctuation mark in the input, if any."),
+        summary: z
+          .string()
+          .describe(
+            "Summary",
+          ),
+        key_functions: z
+          .array(z.string())
+          .default([])
+          .describe("Bullet list of key functions or actions available"),
+        actors_permissions: z
+          .array(z.string())
+          .default([])
+          .describe("Bullet list describing actors and their permissions"),
+        state_changes: z
+          .array(z.string())
+          .default([])
+          .describe("Bullet list of global/local state mutated by the contract"),
+        risks: z
+          .array(z.string())
+          .default([])
+          .describe("List of risk detections in short bullet form"),
+        vulnerabilities: z
+          .array(vulnerabilitySchema)
+          .default([])
+          .describe("Detailed vulnerability entries with severity and recommendations"),
       })
-      .describe("Should always be used to properly format output");
+      .describe("Algorand contract audit structured response");
 
     /**
      * Bind schema to the OpenAI model.
@@ -165,9 +203,15 @@ export async function POST(req: NextRequest) {
     const chain = prompt.pipe(functionCallingModel);
     const smart_contract = resultAPI.approval_program;
     //SMART CONTRACT PASSING TO MODEL
-    const result = await chain.invoke({
+    const structured = await chain.invoke({
       input: smart_contract,
     });
+
+    // Attach useful metadata
+    const result = {
+      application_id: applicationId,
+      ...structured,
+    };
 
     return NextResponse.json(result, { status: 200 });
   } catch (e: any) {

@@ -2,21 +2,16 @@ import { ChatWindow } from "@/components/ChatWindow";
 import { GuideInfoBox } from "@/components/guide/GuideInfoBox";
 
 export default function AgentsPage() {
-  const InfoCard = (
+    const InfoCard = (
     <GuideInfoBox>
-      <ul>
-        <li className="text-l">
-          
-          <span className="ml-2">
-            This template showcases how to output structured responses with a{" "}
-            <a href="https://js.langchain.com/" target="_blank">
-              WEB3 Audit AI-powered  </a>       
-          </span>
-      
-       
-        
-        </li>
-      </ul>
+      <div className="space-y-4">
+        <h1 className="text-2xl font-bold text-center">
+          AI that explains, audits, and secures your Algorand smart contracts.
+        </h1>
+        <p className="text-sm text-muted-foreground text-center">
+          An AI-powered tool that analyzes Algorand smart contracts, explains their behavior in plain language, highlights risks with severity levels, and suggests improvements with clear references to the underlying TEAL code.
+        </p>
+      </div>
     </GuideInfoBox>
   );
   return (
@@ -24,7 +19,7 @@ export default function AgentsPage() {
       endpoint="api/chat/structured_output"
       emptyStateComponent={InfoCard}
       placeholder={`Input your smart contract address to get the audit report`}
-      emoji="🧱"
+      emoji="/images/algoraudit-favicon.ico"
     />
   );
 }
