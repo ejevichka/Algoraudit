@@ -1,8 +1,8 @@
 import { ChatWindow } from "@/components/ChatWindow";
 import { GuideInfoBox } from "@/components/guide/GuideInfoBox";
 
-export default function Home() {
-  const InfoCard = (
+export default function AgentsPage() {
+    const InfoCard = (
     <GuideInfoBox>
       <div className="space-y-4">
         <h1 className="text-2xl font-bold text-center">
@@ -17,9 +17,9 @@ export default function Home() {
   return (
     <ChatWindow
       endpoint="api/chat/structured_output"
-      emoji="/images/algoraudit-favicon.ico"
-      placeholder="Input your smart contract address to get the audit report"
       emptyStateComponent={InfoCard}
+      placeholder={`Input your smart contract address to get the audit report`}
+      emoji="/images/algoraudit-favicon.ico"
     />
   );
 }
